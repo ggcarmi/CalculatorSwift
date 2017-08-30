@@ -12,23 +12,30 @@ class ViewController: UIViewController {
     
     var userIsInMiddleOfTyping:Bool = false
     
+    // outlet is a property and not an action
+    @IBOutlet weak var display: UILabel!
+    
     // listener to the buttons
     @IBAction func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
         
         if userIsInMiddleOfTyping {
-            let currentText = display!.text!
-            display!.text = currentText + digit
+            let currentText = display.text!
+            display.text = currentText + digit
         }else{
-            display!.text = digit
+            display.text = digit
             userIsInMiddleOfTyping = true
         }
 
     }
-    
-    // outlet is a property and not an action
-    @IBOutlet weak var display: UILabel!
-    
+
+    var displayValue: Double {
+        get{
+            return Double(display.text!)!
+        }set{
+            display.text = String(newValue)
+        }
+    }
     @IBAction func performOperation(_ sender: UIButton) {
         
         userIsInMiddleOfTyping = false
@@ -36,10 +43,9 @@ class ViewController: UIViewController {
             switch mathmaticalSymbol {
                 
             case "pi":
-                display!.text = String(Double.pi)
+                displayValue = Double.pi
             case "^":
-                let operand = Double(display!.text!)!
-                display!.text = String(pow(operand, 2))
+                displayValue = sqrt(displayValue)
             default:
                 break
             }
