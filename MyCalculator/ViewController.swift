@@ -36,19 +36,22 @@ class ViewController: UIViewController {
             display.text = String(newValue)
         }
     }
+    
+    private var brain = CalculatorBrain()
+    
     @IBAction func performOperation(_ sender: UIButton) {
         
-        userIsInMiddleOfTyping = false
+        if userIsInMiddleOfTyping{
+            brain.setOperand(displayValue)
+            userIsInMiddleOfTyping = false
+        }
+        
         if let mathmaticalSymbol = sender.currentTitle {
-            switch mathmaticalSymbol {
-                
-            case "pi":
-                displayValue = Double.pi
-            case "^":
-                displayValue = sqrt(displayValue)
-            default:
-                break
-            }
+            brain.performOperations(mathmaticalSymbol)
+        }
+        
+        if let result = brain.result{
+            displayValue = result
         }
     }
     
