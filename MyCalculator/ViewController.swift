@@ -10,15 +10,24 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    var userIsInMiddleOfTyping:Bool = false
     
-    // listenet to buttons
+    // listener to the buttons
     @IBAction func touchDigit(_ sender: UIButton) {
-        print("touchDigit was called ")
+        let digit = sender.currentTitle!
+        
+        if userIsInMiddleOfTyping {
+            let currentText = display!.text!
+            display!.text = currentText + digit
+        }else{
+            display!.text = digit
+            userIsInMiddleOfTyping = true
+        }
+
     }
     
-    // just a sample commit
-
-    // changes for second comit
+    // outlet is a property and not an action
+    @IBOutlet weak var display: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
