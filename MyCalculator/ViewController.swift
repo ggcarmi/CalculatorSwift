@@ -29,6 +29,23 @@ class ViewController: UIViewController {
     // outlet is a property and not an action
     @IBOutlet weak var display: UILabel!
     
+    @IBAction func performOperation(_ sender: UIButton) {
+        
+        userIsInMiddleOfTyping = false
+        if let mathmaticalSymbol = sender.currentTitle {
+            switch mathmaticalSymbol {
+                
+            case "pi":
+                display!.text = String(Double.pi)
+            case "^":
+                let operand = Double(display!.text!)!
+                display!.text = String(pow(operand, 2))
+            default:
+                break
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
