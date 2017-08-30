@@ -11,6 +11,11 @@ import UIKit
 class ViewController: UIViewController {
     
     
+    // listenet to buttons
+    @IBAction func touchDigit(_ sender: UIButton) {
+        print("touchDigit was called ")
+    }
+    
     // just a sample commit
 
     // changes for second comit
