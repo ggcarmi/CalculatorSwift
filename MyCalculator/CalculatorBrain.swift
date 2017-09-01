@@ -19,7 +19,7 @@ struct CalculatorBrain{
     
 
     
-    // vars
+    /********************** vars **********************/
     private var accumulator: Double?
     
     // to store the first operand with the function
@@ -49,6 +49,7 @@ struct CalculatorBrain{
             "=" : Operation.equals
             
             
+            
         ]
     
     // we use computed propery and not a method - because we wanted to get read only result
@@ -59,7 +60,7 @@ struct CalculatorBrain{
         
     }
     
-    // functions
+    /********************** functions **********************/
     mutating func performOperations(_ symbol: String){
         
         if let operation = operations[symbol]{
@@ -94,7 +95,7 @@ struct CalculatorBrain{
 
     }
     
-    // internal structs
+    /********************** internal structs **********************/
     private enum Operation{
         
         case constant(Double)

@@ -11,7 +11,8 @@ import UIKit
 class ViewController: UIViewController {
     
     var userIsInMiddleOfTyping:Bool = false
-    
+    private var isContainsDot = false
+    private var addDigitNextTime = false
     // outlet is a property and not an action
     @IBOutlet weak var display: UILabel!
     
@@ -19,9 +20,27 @@ class ViewController: UIViewController {
     @IBAction func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
         
+        if digit == "." {
+            if isContainsDot{
+                return
+            }
+            else{
+                isContainsDot = true
+                addDigitNextTime = true
+            }
+        }
+        
         if userIsInMiddleOfTyping {
+            
             let currentText = display.text!
-            display.text = currentText + digit
+            
+            if addDigitNextTime{
+                display.text = currentText + digit
+                addDigitNextTime = false
+            }else{
+                display.text = currentText + digit
+            }
+
         }else{
             display.text = digit
             userIsInMiddleOfTyping = true
@@ -52,6 +71,8 @@ class ViewController: UIViewController {
         
         if let result = brain.result{
             displayValue = result
+            isContainsDot = false
+            addDigitNextTime = false
         }
     }
     
