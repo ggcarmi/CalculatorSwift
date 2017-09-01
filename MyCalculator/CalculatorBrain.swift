@@ -8,22 +8,44 @@
 
 import Foundation
 
-// we need to think what is the public api what the app do
+func changeSign(operand: Double) -> Double {
+    return -operand
+}
 
+// we need to think what is the public api what the app do
 struct CalculatorBrain{
     
     private var accumulator: Double?
     
-    func performOperations(_ symbol: String){
+    private enum Operation{
         
-        switch mathmaticalSymbol {
+        case constant(Double)
+        case unaryOperation( (Double) -> Double )
+    }
+    
+    private var operations: Dictionary<String,Operation> =
+        [
+            "𝝅" : Operation.constant(Double.pi),
+            "e" : Operation.constant(M_E),
+            "√" : Operation.unaryOperation(sqrt),
+            "cos" : Operation.unaryOperation(cos),
+            "±" : Operation.unaryOperation(changeSign)
             
-        case "pi":
-            displayValue = Double.pi
-        case "^":
-            displayValue = sqrt(displayValue)
-        default:
-            break
+            
+        ]
+    
+    mutating func performOperations(_ symbol: String){
+        
+        if let operation = operations[symbol]{
+            switch operation {
+                case .constant(let value):
+                    accumulator = value
+                case .unaryOperation(let function):
+                    if accumulator != nil {
+                        accumulator = function(accumulator!)
+                    }
+                
+            }
         }
     }
     
