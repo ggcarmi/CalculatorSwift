@@ -32,7 +32,20 @@ struct CalculatorBrain{
             "√" : Operation.unaryOperation(sqrt),
             "cos" : Operation.unaryOperation(cos),
             "±" : Operation.unaryOperation(changeSign),
-            "×" : Operation.binaryOperation(m),
+            
+            // lets use Closures - its embeded functions in line.
+            "×" : Operation.binaryOperation(
+                { (op1: Double, op2: Double) -> Double in return op1*op2}
+            ),
+            
+            // lets make the closure more clean - because swift knows the types
+            "+" : Operation.binaryOperation(
+            { (op1, op2) in return op1+op2}
+            ),
+            
+            // and the simpliest way for Closure is...
+            "÷" : Operation.binaryOperation({ ($0 / $1) }),
+            "-" : Operation.binaryOperation({ ($0 - $1) }),
             "=" : Operation.equals
             
             
@@ -62,8 +75,10 @@ struct CalculatorBrain{
                         pendingBinaryOperation = PendingBinaryOperation(firstOperand: accumulator!, function: function)
                         accumulator = nil
                     }
-                
-                }
+                case .equals:
+                    performPendingBinaryOperation()
+            }
+            
         }
     }
     
