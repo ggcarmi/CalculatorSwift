@@ -25,6 +25,11 @@ struct CalculatorBrain{
     // to store the first operand with the function
     private var pendingBinaryOperation: PendingBinaryOperation?
     
+    // to know if binary operation is pending
+    private var resultIsPending = false
+    
+    private var description:String = ""
+    
     private var operations: Dictionary<String,Operation> =
         [
             "𝝅" : Operation.constant(Double.pi),
@@ -75,6 +80,7 @@ struct CalculatorBrain{
                     if accumulator != nil{
                         pendingBinaryOperation = PendingBinaryOperation(firstOperand: accumulator!, function: function)
                         accumulator = nil
+                        resultIsPending = true
                     }
                 case .equals:
                     performPendingBinaryOperation()
@@ -91,6 +97,7 @@ struct CalculatorBrain{
         if pendingBinaryOperation != nil && accumulator != nil {
             accumulator = pendingBinaryOperation!.perform(with: accumulator!)
             pendingBinaryOperation = nil
+            resultIsPending = false
         }
 
     }
