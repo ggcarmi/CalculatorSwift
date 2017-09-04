@@ -62,6 +62,9 @@ struct CalculatorBrain{
             "e" : Operation.constant(M_E),
             "√" : Operation.unaryOperation(sqrt, { "√(\($0))"}),
             "cos" : Operation.unaryOperation(cos, { "cos(\($0))"}),
+            "sin" : Operation.unaryOperation(sin, { "sin(\($0))"}),
+            "tan" : Operation.unaryOperation(tan, { "tan(\($0))"}),
+            "log" : Operation.unaryOperation(log, { "log(\($0))"}),
             "±" : Operation.unaryOperation({ -$0 }, { "-(\($0))"}),
             "x²" : Operation.unaryOperation({ $0 * $0 }, { "(\($0))²"}),
             
