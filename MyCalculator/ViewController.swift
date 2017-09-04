@@ -46,26 +46,30 @@ class ViewController: UIViewController {
     
     @IBAction func performOperation(_ sender: UIButton) {
         
-        
-        if userIsInMiddleOfTyping{
-            brain.setOperand(displayValue)
-            userIsInMiddleOfTyping = false
+        let testValid: Double? = Double(display.text!)
+        if testValid != nil{
+            if userIsInMiddleOfTyping{
+                brain.setOperand(displayValue)
+                userIsInMiddleOfTyping = false
+            }
+            
+            if let mathmaticalSymbol = sender.currentTitle {
+                brain.performOperations(mathmaticalSymbol)
+            }
+            
+            if let result = brain.result{
+                displayValue = result
+                displayDescription.text = brain.getDescription
+            }
         }
-        
-        if let mathmaticalSymbol = sender.currentTitle {
-            brain.performOperations(mathmaticalSymbol)
-        }
-        
-        if let result = brain.result{
-            displayValue = result
-            displayDescription.text = brain.getDescription
-        }
+
     }
     
     @IBAction func clear(_ sender: UIButton) {
         brain.clear()
         userIsInMiddleOfTyping = false
         displayValue = 0
+        displayDescription.text = " "
     }
     
     override func viewDidLoad() {

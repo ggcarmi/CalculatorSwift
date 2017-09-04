@@ -135,13 +135,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MyCalculator/ViewController.swift"
-            timestampString = "526222732.185666"
+            filePath = "MyCalculator/CalculatorBrain.swift"
+            timestampString = "526223631.919595"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "performOperation(_:)"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
+            landmarkName = "performOperations(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -151,13 +151,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MyCalculator/CalculatorBrain.swift"
-            timestampString = "526223631.919595"
+            filePath = "MyCalculator/ViewController.swift"
+            timestampString = "526224024.173129"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
-            landmarkName = "performOperations(_:)"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "touchDigit(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
