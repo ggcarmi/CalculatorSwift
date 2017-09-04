@@ -20,14 +20,15 @@ class ViewController: UIViewController {
     @IBAction func touchDigit(_ sender: UIButton) {
         
         let digit = sender.currentTitle!
-
+        brain.isLegalToMakeBinaryOperation = true
+        
         if userIsInMiddleOfTyping {
             let currentText = display.text!
             if(digit != "." || currentText.range(of: ".") == nil ){
                 display.text = currentText + digit
             }
         }else{
-            display.text = digit
+            display.text = digit // maybe add zero
             userIsInMiddleOfTyping = true
         }
         
@@ -45,6 +46,7 @@ class ViewController: UIViewController {
     
     @IBAction func performOperation(_ sender: UIButton) {
         
+        
         if userIsInMiddleOfTyping{
             brain.setOperand(displayValue)
             userIsInMiddleOfTyping = false
@@ -58,6 +60,12 @@ class ViewController: UIViewController {
             displayValue = result
             displayDescription.text = brain.getDescription
         }
+    }
+    
+    @IBAction func clear(_ sender: UIButton) {
+        brain.clear()
+        userIsInMiddleOfTyping = false
+        displayValue = 0
     }
     
     override func viewDidLoad() {

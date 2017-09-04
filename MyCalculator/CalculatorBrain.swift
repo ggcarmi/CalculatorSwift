@@ -25,6 +25,8 @@ struct CalculatorBrain{
     // to know if binary operation is pending
     private var resultIsPending = false
     
+    var isLegalToMakeBinaryOperation: Bool = false
+    
     // we use computed propery and not a method - because we wanted to get read only result
     var result: Double? {
         get{
@@ -47,7 +49,7 @@ struct CalculatorBrain{
     var getDescription: String{
         get{
             if(description != " "){
-                return resultIsPending ? (description + "...") : (description + "=")
+                return resultIsPending ? (description + "...") : (description)
             }else{
                 return " "
             }
@@ -97,12 +99,17 @@ struct CalculatorBrain{
                 
                 case .binaryOperation(let function, let descriptionFunction):
 
-                    performPendingBinaryOperation()
-                
-                    pendingBinaryOperation = PendingBinaryOperation(firstOperand: accumulatorValue!,
-                                                     binaryFunction: function,
-                                                     descriptionOperand: accumulatorDescription,
-                                                     descriptionFunction: descriptionFunction)
+                    if isLegalToMakeBinaryOperation{
+                        performPendingBinaryOperation()
+                        
+                        // enter here protection from first click on operation
+                        
+                        pendingBinaryOperation = PendingBinaryOperation(firstOperand: accumulatorValue!,
+                                                                        binaryFunction: function,
+                                                                        descriptionOperand: accumulatorDescription,
+                                                                        descriptionFunction: descriptionFunction)
+                    }
+
                 
                 case .equals:
                     performPendingBinaryOperation()
@@ -134,12 +141,13 @@ struct CalculatorBrain{
         }
     }
     
-    private mutating func clear(){
+    mutating func clear(){
         
         accumulatorValue = 0
         accumulatorDescription = " "
         pendingBinaryOperation = nil
         resultIsPending = false
+        isLegalToMakeBinaryOperation = false
     }
     
     /********************** internal structs **********************/
