@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     
     // listener to the buttons
     @IBAction func touchDigit(_ sender: UIButton) {
+        
         let digit = sender.currentTitle!
 
         if userIsInMiddleOfTyping {
@@ -27,9 +28,9 @@ class ViewController: UIViewController {
             }
         }else{
             display.text = digit
+            userIsInMiddleOfTyping = true
         }
         
-        userIsInMiddleOfTyping = true
     }
 
     var displayValue: Double {
@@ -55,6 +56,7 @@ class ViewController: UIViewController {
         
         if let result = brain.result{
             displayValue = result
+            displayDescription.text = brain.getDescription
         }
     }
     
