@@ -104,12 +104,8 @@ struct CalculatorBrain{
 
                     if isLegalToMakeBinaryOperation{
                         
-                        // if we have already binary operation, just change the operation
-                        
                         performPendingBinaryOperation()
-                        
-                        // enter here protection from first click on operation
-                        
+                    
                         pendingBinaryOperation = PendingBinaryOperation(firstOperand: accumulatorValue!,
                                                                         binaryFunction: function,
                                                                         descriptionOperand: accumulatorDescription,
