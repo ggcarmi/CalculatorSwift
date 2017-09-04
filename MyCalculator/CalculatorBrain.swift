@@ -51,7 +51,8 @@ struct CalculatorBrain{
             // and the simpliest way for Closure is...
             "÷" : Operation.binaryOperation({ ($0 / $1) }),
             "-" : Operation.binaryOperation({ ($0 - $1) }),
-            "=" : Operation.equals
+            "=" : Operation.equals,
+            "C" : Operation.clear
             
             
             
@@ -84,6 +85,8 @@ struct CalculatorBrain{
                     }
                 case .equals:
                     performPendingBinaryOperation()
+                case .clear:
+                    clear()
             }
             
         }
@@ -102,6 +105,12 @@ struct CalculatorBrain{
 
     }
     
+    private mutating func clear(){
+        accumulator = 0
+        description = " "
+        pendingBinaryOperation = nil
+    }
+    
     /********************** internal structs **********************/
     private enum Operation{
         
@@ -109,6 +118,7 @@ struct CalculatorBrain{
         case unaryOperation( (Double) -> Double)
         case binaryOperation((Double,Double) -> Double)
         case equals
+        case clear
     }
     
     private struct PendingBinaryOperation {
