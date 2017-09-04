@@ -54,6 +54,8 @@ class ViewController: UIViewController {
             }
             
             if let mathmaticalSymbol = sender.currentTitle {
+                
+                // if there is another operation change it to the new one and continue
                 brain.performOperations(mathmaticalSymbol)
             }
             

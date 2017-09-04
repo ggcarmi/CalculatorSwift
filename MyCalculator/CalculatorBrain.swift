@@ -49,7 +49,7 @@ struct CalculatorBrain{
     var getDescription: String{
         get{
             if(description != " "){
-                return resultIsPending ? (description + "...") : (description)
+                return resultIsPending ? (description + "...") : (description + "= ")
             }else{
                 return " "
             }
@@ -103,6 +103,9 @@ struct CalculatorBrain{
                 case .binaryOperation(let function, let descriptionFunction):
 
                     if isLegalToMakeBinaryOperation{
+                        
+                        // if we have already binary operation, just change the operation
+                        
                         performPendingBinaryOperation()
                         
                         // enter here protection from first click on operation
