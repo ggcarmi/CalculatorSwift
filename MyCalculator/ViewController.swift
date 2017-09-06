@@ -38,7 +38,8 @@ class ViewController: UIViewController {
         get{
             return Double(display.text!)!
         }set{
-            display.text = String(newValue)
+            let isInteger = newValue.truncatingRemainder(dividingBy: 1) == 0
+            display.text = isInteger ? String(format: "%.0f", newValue) : String(newValue)
         }
     }
     
