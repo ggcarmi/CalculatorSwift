@@ -11,45 +11,66 @@ import UIKit
 class ViewController: UIViewController {
     
     var userIsInMiddleOfTyping:Bool = false
-    
+
     // outlet is a property and not an action
     @IBOutlet weak var display: UILabel!
+    @IBOutlet weak var displayDescription: UILabel! 
     
     // listener to the buttons
     @IBAction func touchDigit(_ sender: UIButton) {
+        
         let digit = sender.currentTitle!
+        brain.isLegalToMakeBinaryOperation = true
         
         if userIsInMiddleOfTyping {
             let currentText = display.text!
-            display.text = currentText + digit
+            if(digit != "." || currentText.range(of: ".") == nil ){
+                display.text = currentText + digit
+            }
         }else{
             display.text = digit
             userIsInMiddleOfTyping = true
         }
-
+        
     }
 
     var displayValue: Double {
         get{
             return Double(display.text!)!
         }set{
-            display.text = String(newValue)
+            let isInteger = newValue.truncatingRemainder(dividingBy: 1) == 0
+            display.text = isInteger ? String(format: "%.0f", newValue) : String(newValue)
         }
     }
+    
+    private var brain = CalculatorBrain()
+    
     @IBAction func performOperation(_ sender: UIButton) {
         
-        userIsInMiddleOfTyping = false
-        if let mathmaticalSymbol = sender.currentTitle {
-            switch mathmaticalSymbol {
-                
-            case "pi":
-                displayValue = Double.pi
-            case "^":
-                displayValue = sqrt(displayValue)
-            default:
-                break
+        let testValid: Double? = Double(display.text!)
+        if testValid != nil{
+            if userIsInMiddleOfTyping{
+                brain.setOperand(displayValue)
+                userIsInMiddleOfTyping = false
+            }
+            
+            if let mathmaticalSymbol = sender.currentTitle {
+                brain.performOperations(mathmaticalSymbol)
+            }
+            
+            if let result = brain.result{
+                displayValue = result
+                displayDescription.text = brain.getDescription
             }
         }
+
+    }
+    
+    @IBAction func clear(_ sender: UIButton) {
+        brain.clear()
+        userIsInMiddleOfTyping = false
+        displayValue = 0
+        displayDescription.text = " "
     }
     
     override func viewDidLoad() {
