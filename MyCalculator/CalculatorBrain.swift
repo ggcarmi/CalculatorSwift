@@ -133,16 +133,15 @@ struct CalculatorBrain{
     
     mutating func setOperand(_ operand: Double){
         
-        let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 9
         accumulatorValue = operand
-        accumulatorDescription = formatter.string(from: NSNumber(value: operand))!
+        let isInteger = operand.truncatingRemainder(dividingBy: 1) == 0
+        accumulatorDescription = isInteger ? String(format: "%.0f", operand) : String(operand)
     }
     
     
     private mutating func performPendingBinaryOperation() {
 
-        // resultIsPending = true
+        //resultIsPending = true
         
         if pendingBinaryOperation != nil {
             accumulatorDescription = pendingBinaryOperation!.descriptionFunction(pendingBinaryOperation!.descriptionOperand,accumulatorDescription)
