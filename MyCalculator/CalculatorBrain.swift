@@ -19,6 +19,7 @@ struct CalculatorBrain{
     private var accumulatorValue: Double?
     private var accumulatorDescription = " "
     
+    
     // to store the first operand with the function
     private var pendingBinaryOperation: PendingBinaryOperation?
     
@@ -104,12 +105,18 @@ struct CalculatorBrain{
 
                     if isLegalToMakeBinaryOperation{
                         
-                        performPendingBinaryOperation()
+                        // if there is aa pendingBinaryOperation - perform it - else - ignore
+                        //performPendingBinaryOperation()
                     
+                        resultIsPending = true
+
+                        // create new pendingBinaryOperation
                         pendingBinaryOperation = PendingBinaryOperation(firstOperand: accumulatorValue!,
                                                                         binaryFunction: function,
                                                                         descriptionOperand: accumulatorDescription,
                                                                         descriptionFunction: descriptionFunction)
+                        
+                        
                     }
 
                 
@@ -132,9 +139,10 @@ struct CalculatorBrain{
         accumulatorDescription = formatter.string(from: NSNumber(value: operand))!
     }
     
+    
     private mutating func performPendingBinaryOperation() {
 
-        resultIsPending = true
+        // resultIsPending = true
         
         if pendingBinaryOperation != nil {
             accumulatorDescription = pendingBinaryOperation!.descriptionFunction(pendingBinaryOperation!.descriptionOperand,accumulatorDescription)
