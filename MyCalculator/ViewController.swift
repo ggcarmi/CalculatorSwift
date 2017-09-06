@@ -28,7 +28,7 @@ class ViewController: UIViewController {
                 display.text = currentText + digit
             }
         }else{
-            display.text = digit // maybe add zero
+            display.text = digit
             userIsInMiddleOfTyping = true
         }
         
@@ -54,8 +54,6 @@ class ViewController: UIViewController {
             }
             
             if let mathmaticalSymbol = sender.currentTitle {
-                
-                // if there is another operation change it to the new one and continue
                 brain.performOperations(mathmaticalSymbol)
             }
             

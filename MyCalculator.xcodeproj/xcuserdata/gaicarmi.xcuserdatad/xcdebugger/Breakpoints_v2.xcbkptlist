@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyCalculator/CalculatorBrain.swift"
-            timestampString = "526231235.289904"
+            timestampString = "526234593.287075"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201">
+            startingLineNumber = "197"
+            endingLineNumber = "197">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -24,11 +24,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyCalculator/CalculatorBrain.swift"
-            timestampString = "526231235.289904"
+            timestampString = "526234593.287075"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
             landmarkName = "performOperations(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -56,11 +56,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyCalculator/CalculatorBrain.swift"
-            timestampString = "526231235.289904"
+            timestampString = "526234593.287075"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
             landmarkName = "performPendingBinaryOperation()"
             landmarkType = "7">
          </BreakpointContent>
@@ -72,11 +72,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyCalculator/CalculatorBrain.swift"
-            timestampString = "526231235.289904"
+            timestampString = "526234593.287075"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "setOperand(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -152,11 +152,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyCalculator/CalculatorBrain.swift"
-            timestampString = "526231235.289904"
+            timestampString = "526234593.287075"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
             landmarkName = "performOperations(_:)"
             landmarkType = "7">
          </BreakpointContent>
