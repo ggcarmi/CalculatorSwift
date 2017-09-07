@@ -65,7 +65,10 @@ class ViewController: UIViewController {
         }
     }
     
-    private var variablesDictionary: Dictionary<String, Double>?
+    
+    var variablesDictionary: Dictionary<String, Double>? = ["M":0]
+    
+    
         /*
         {
         get{
@@ -139,22 +142,25 @@ class ViewController: UIViewController {
     }
 
     // →M
-    /*
+    
     @IBAction func getM(_ sender: UIButton) {
         // M: current value of the display
         variablesDictionary?["M"] = displayValue
-        var result: (Double?, Bool, String) = brain.evaluate(using: variablesDictionary)
-        display.text! = result.0
+        //let result = brain.evaluate(using: variablesDictionary)
+        //displayValue = result.result
+        displayValueToUpdate = brain.evaluate(using: variablesDictionary)
         // update the display with the result that come back from evaluate
     }
     
     // M
     @IBAction func setM(_ sender: UIButton) {
         brain.setOperand(variable: sender.currentTitle!)
+        displayValueToUpdate = brain.evaluate(using: variablesDictionary)
+
         //displayValue = brain.evaluate(using: variablesDictionary)
         // show the result of calling evaluate in the display.
     }
-    */
+    
     
     
     override func didReceiveMemoryWarning() {

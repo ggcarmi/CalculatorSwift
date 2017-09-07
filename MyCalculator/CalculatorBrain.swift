@@ -161,10 +161,11 @@ struct CalculatorBrain{
     mutating func setOperand(_ operand: Double){
         
         arrayOfLastElements.append(ArrayStackMember.operand(operand))
-        
+        /*
         accumulatorValue = operand
         let isInteger = operand.truncatingRemainder(dividingBy: 1) == 0
         accumulatorDescription = isInteger ? String(format: "%.0f", operand) : String(operand)
+         */
     }
     
     /*
@@ -287,7 +288,7 @@ struct CalculatorBrain{
                             // if there is aa pendingBinaryOperation - perform it - else - ignore
                             //performPendingBinaryOperation()
                             
-                            resultIsPending = true
+                        
                             
                             // create new pendingBinaryOperation
                             pendingBinaryOperation = PendingBinaryOperation(firstOperand: sum.value!,
@@ -295,6 +296,13 @@ struct CalculatorBrain{
                                                                             descriptionOperand: sum.description,
                                                                             descriptionFunction: descriptionFunction)
                         
+                        resultIsPending = true
+                            /*
+                            pendingBinaryOperation = PendingBinaryOperation(firstOperand: sum.value!,
+                                                                            binaryFunction: function,
+                                                                            descriptionOperand: sum.description,
+                                                                            descriptionFunction: descriptionFunction)
+                        */
                             //sum = (0, " ")
                         //sum.value = 0
                             
