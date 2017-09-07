@@ -39,11 +39,18 @@ class ViewController: UIViewController {
                 displayValue = 0
             }
             
+//            if displayValueToUpdate.description != " " {
+//                displayDescription.text = displayValueToUpdate.description + ( displayValueToUpdate.isPending ? " ... " : " = ")
+//            }else{
+//                displayDescription.text = " "
+//            }
+            
             if displayValueToUpdate.description != " " {
-                displayDescription.text = displayValueToUpdate.description + ( displayValueToUpdate.isPending ? " ... " : " = ")
+                displayDescription.text = displayValueToUpdate.description
             }else{
                 displayDescription.text = " "
             }
+            
         }
 
     }

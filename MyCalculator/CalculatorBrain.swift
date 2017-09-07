@@ -222,21 +222,28 @@ struct CalculatorBrain{
         
         var description: String? {
             get{
-                
                  if !resultIsPending{
-                    return accumulatorDescription
+                    return sum.description
                  }else{
                     return pendingBinaryOperation!.descriptionFunction(pendingBinaryOperation!.descriptionOperand,
-                 pendingBinaryOperation!.descriptionOperand != accumulatorDescription ? accumulatorDescription : " ")
+                           pendingBinaryOperation!.descriptionOperand != sum.description ? sum.description : " ")
                  }
             }
             
         }
         
+        var getDescription: String{
+            
+                 if(description != " "){
+                    return resultIsPending ? (description! + "...") : (description! + "= ")
+                 }else{
+                    return " "
+                 }
+        }
+        
         func performPendingBinaryOperation() {
             
             //resultIsPending = true
-            
             if sum.value != nil && pendingBinaryOperation != nil {
                 sum.description = pendingBinaryOperation!.descriptionFunction(pendingBinaryOperation!.descriptionOperand,sum.description)
                 sum.value = pendingBinaryOperation!.binaryFunction(pendingBinaryOperation!.firstOperand, sum.value!)
@@ -288,7 +295,8 @@ struct CalculatorBrain{
                                                                             descriptionOperand: sum.description,
                                                                             descriptionFunction: descriptionFunction)
                         
-                            sum = (0, " ")
+                            //sum = (0, " ")
+                        //sum.value = 0
                             
                             
                         //}
@@ -310,7 +318,7 @@ struct CalculatorBrain{
             
         }
         
-        return (sum.value, resultIsPending, sum.description )
+        return (sum.value, resultIsPending, getDescription )
         
 
         
