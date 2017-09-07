@@ -19,24 +19,25 @@ struct CalculatorBrain{
     private var accumulatorValue: Double?
     private var accumulatorDescription = " "
     
+    var M: Double?
     
     // to store the first operand with the function
     private var pendingBinaryOperation: PendingBinaryOperation?
     
     // to know if binary operation is pending
-    private var resultIsPending = false
+    private var resultIsPending = false     /********** depricated **********/
     
     var isLegalToMakeBinaryOperation: Bool = false
     
     // we use computed propery and not a method - because we wanted to get read only result
-    var result: Double? {
+    var result: Double? {                   /********** depricated **********/
         get{
             return accumulatorValue
         }
         
     }
     
-    private var description: String {
+    private var description: String {       /********** depricated **********/
         get{
             if !resultIsPending{
                 return accumulatorDescription
@@ -83,6 +84,7 @@ struct CalculatorBrain{
             
         ]
     
+    
 
     /********************** functions **********************/
     
@@ -119,7 +121,6 @@ struct CalculatorBrain{
                         
                     }
 
-                
                 case .equals:
                     performPendingBinaryOperation()
                     resultIsPending = false
@@ -137,7 +138,6 @@ struct CalculatorBrain{
         let isInteger = operand.truncatingRemainder(dividingBy: 1) == 0
         accumulatorDescription = isInteger ? String(format: "%.0f", operand) : String(operand)
     }
-    
     
     private mutating func performPendingBinaryOperation() {
 
@@ -159,6 +159,18 @@ struct CalculatorBrain{
         isLegalToMakeBinaryOperation = false
     }
     
+
+    
+    // to handle variable
+    mutating func setOperand(variable named: String){
+
+        if let operand = Double(named){
+            setOperand(operand)
+        }
+    }
+    
+
+    
     /********************** internal structs **********************/
     
     private enum Operation{
@@ -168,6 +180,7 @@ struct CalculatorBrain{
         case binaryOperation((Double,Double) -> Double, (String,String) -> String)
         case equals
         case clear
+    
     }
     
     private struct PendingBinaryOperation {
