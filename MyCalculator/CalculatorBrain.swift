@@ -285,7 +285,7 @@ struct CalculatorBrain{
                         //if isLegalToMakeBinaryOperation{
                             
                             // if there is aa pendingBinaryOperation - perform it - else - ignore
-                            performPendingBinaryOperation()
+                            //performPendingBinaryOperation()
                             
                             resultIsPending = true
                             
