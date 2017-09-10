@@ -236,7 +236,8 @@ struct CalculatorBrain{
         var getDescription: String{
             
                  if(description != " "){
-                    return resultIsPending ? (description! + "...") : (description! + "= ")
+                    // return resultIsPending ? (description! + "...") : (description! + "= ")
+                    return description!
                  }else{
                     return " "
                  }
@@ -345,6 +346,11 @@ struct CalculatorBrain{
      func undo(){
      
      }
+     
+     // limit numbers after point
+     
+     // generate random num
+     
      */
 
     

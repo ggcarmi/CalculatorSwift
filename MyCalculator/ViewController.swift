@@ -13,25 +13,12 @@ class ViewController: UIViewController {
     // outlet is a property and not an action
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var displayDescription: UILabel!
+    @IBOutlet weak var displayM: UILabel!
     
     var userIsInMiddleOfTyping:Bool = false
 
     var displayValueToUpdate:(result: Double?, isPending: Bool, description: String) = (nil, false, " "){
-        
-            //updateUI or Model
-//            didSet {
-//                if let result = displayValueToUpdate.result{
-//                    displayValue = result
-//                }else{
-//                    displayValue = 0
-//                }
-//
-//                if displayValueToUpdate.description != " " {
-//                    displayDescription.text = displayValueToUpdate.description + ( displayValueToUpdate.isPending ? " ... " : " = ")
-//                }else{
-//                    displayDescription.text = " "
-//                }
-//        }
+
         didSet{
             if let result = displayValueToUpdate.result{
                 displayValue = result
@@ -46,7 +33,13 @@ class ViewController: UIViewController {
 //            }
             
             if displayValueToUpdate.description != " " {
-                displayDescription.text = displayValueToUpdate.description
+                
+                // if we want to display without ... and = ,so use this line
+                // displayDescription.text = displayValueToUpdate.description
+                
+                // to display ... and = , use this line
+                displayDescription.text = displayValueToUpdate.description + ( displayValueToUpdate.isPending ? " ... " : " = ")
+
             }else{
                 displayDescription.text = " "
             }
@@ -133,6 +126,7 @@ class ViewController: UIViewController {
         userIsInMiddleOfTyping = false
         displayValue = 0
         displayDescription.text = " "
+        displayM.text = " M = 0"
         variablesDictionary?.removeAll() // TODO: check if its correct
     }
     
@@ -145,9 +139,17 @@ class ViewController: UIViewController {
     
     @IBAction func getM(_ sender: UIButton) {
         // M: current value of the display
-        variablesDictionary?["M"] = displayValue
+        variablesDictionary = ["M": displayValue]
+        // variablesDictionary?["M"] = displayValue
+        
+        if let res = variablesDictionary!["M"] {
+            let isInteger = res.truncatingRemainder(dividingBy: 1) == 0
+            displayM.text = " M = " + (isInteger ? String(format: "%.0f", res) : String(res))
+        }
+        
         //let result = brain.evaluate(using: variablesDictionary)
         //displayValue = result.result
+        userIsInMiddleOfTyping = false
         displayValueToUpdate = brain.evaluate(using: variablesDictionary)
         // update the display with the result that come back from evaluate
     }
@@ -161,6 +163,8 @@ class ViewController: UIViewController {
         // show the result of calling evaluate in the display.
     }
     
+    @IBAction func undo(_ sender: UIButton) {
+    }
     
     
     override func didReceiveMemoryWarning() {
