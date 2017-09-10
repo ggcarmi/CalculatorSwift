@@ -47,23 +47,11 @@ struct CalculatorBrain{
     }
     
     private var description: String {       /********** depricated **********/
-        
-        
         get{
             return evaluate(using: nil).description
-            /*
-            if !resultIsPending{
-                return accumulatorDescription
-            }else{
-                return pendingBinaryOperation!.descriptionFunction(pendingBinaryOperation!.descriptionOperand,
-                                            pendingBinaryOperation!.descriptionOperand != accumulatorDescription ? accumulatorDescription : " ")
-            }*/
         }
-        
     }
  
-    
-    
     var getDescription: String{
         get{
             let res = evaluate(using: nil)
@@ -72,13 +60,6 @@ struct CalculatorBrain{
             }else{
                 return " "
             }
-            /*
-            if(description != " "){
-                return resultIsPending ? (description + "...") : (description + "= ")
-            }else{
-                return " "
-            }
-             */
         }
     }
     
@@ -107,117 +88,31 @@ struct CalculatorBrain{
             //"C" : Operation.clear
             
         ]
-    
-    
+
 
     /********************** functions **********************/
     
     mutating func performOperations(_ symbol: String){
-        
-        
             arrayOfLastElements.append(ArrayStackMember.operation(symbol))
-            /*
-            switch operation {
-                
-                case .constant(let value):
-                    accumulatorValue = value
-                    accumulatorDescription = symbol
-                
-                case .unaryOperation(let function, let descriptionFunction):
-                    if accumulatorValue != nil {
-                        accumulatorValue = function(accumulatorValue!)
-                        accumulatorDescription = descriptionFunction(accumulatorDescription)
-                    }
-                
-                case .binaryOperation(let function, let descriptionFunction):
-
-                    if isLegalToMakeBinaryOperation{
-                        
-                        // if there is aa pendingBinaryOperation - perform it - else - ignore
-                        //performPendingBinaryOperation()
-                    
-                        resultIsPending = true
-
-                        // create new pendingBinaryOperation
-                        pendingBinaryOperation = PendingBinaryOperation(firstOperand: accumulatorValue!,
-                                                                        binaryFunction: function,
-                                                                        descriptionOperand: accumulatorDescription,
-                                                                        descriptionFunction: descriptionFunction)
-                        
-                        
-                    }
- 
-                case .equals:
-                    performPendingBinaryOperation()
-                    resultIsPending = false
-                
-                case .clear:
-                    clear()
-            }*/
-            
-        
     }
     
     mutating func setOperand(_ operand: Double){
-        
         arrayOfLastElements.append(ArrayStackMember.operand(operand))
-        /*
-        accumulatorValue = operand
-        let isInteger = operand.truncatingRemainder(dividingBy: 1) == 0
-        accumulatorDescription = isInteger ? String(format: "%.0f", operand) : String(operand)
-         */
     }
-    
-    /*
-    private mutating func performPendingBinaryOperation() {
 
-        //resultIsPending = true
-        
-        if pendingBinaryOperation != nil {
-            accumulatorDescription = pendingBinaryOperation!.descriptionFunction(pendingBinaryOperation!.descriptionOperand,accumulatorDescription)
-            accumulatorValue = pendingBinaryOperation!.binaryFunction(pendingBinaryOperation!.firstOperand, accumulatorValue!)
-            pendingBinaryOperation = nil
-        }
-    }
-    */
-    
     mutating func clear(){
-        /*
-        accumulatorValue = 0
-        accumulatorDescription = " "
-        pendingBinaryOperation = nil
-        resultIsPending = false
-        isLegalToMakeBinaryOperation = false
-         */
         arrayOfLastElements.removeAll()
     }
  
-
-    
     // to handle variable
     mutating func setOperand(variable named: String){
-        
         arrayOfLastElements.append(ArrayStackMember.variable(named))
-        /*
-         if let operand = Double(named){
-         setOperand(operand)
-         }
-         */
-        
     }
     
-    
-    // not make it mutate!!! if value is not in the Dictionary so it zero
     func evaluate(using variables: Dictionary<String, Double>? = nil) -> (result: Double?, isPending: Bool, description: String){
-        
-        // 1. iterate the stack
-        // 2. replace all variables with their values from Dict - if not exist - its zero
-        // 3. calculate
-        
+
         var sum:(value: Double?, description: String) = (0," ")
         var resultIsPending = false
-        
-        //var isLegalToMakeBinaryOperation = false
         
         var pendingBinaryOperation: PendingBinaryOperation?
         
@@ -230,13 +125,11 @@ struct CalculatorBrain{
                            pendingBinaryOperation!.descriptionOperand != sum.description ? sum.description : " ")
                  }
             }
-            
         }
         
         var getDescription: String{
             
                  if(description != " "){
-                    // return resultIsPending ? (description! + "...") : (description! + "= ")
                     return description!
                  }else{
                     return " "
@@ -245,7 +138,6 @@ struct CalculatorBrain{
         
         func performPendingBinaryOperation() {
             
-            //resultIsPending = true
             if sum.value != nil && pendingBinaryOperation != nil {
                 sum.description = pendingBinaryOperation!.descriptionFunction(pendingBinaryOperation!.descriptionOperand,sum.description)
                 sum.value = pendingBinaryOperation!.binaryFunction(pendingBinaryOperation!.firstOperand, sum.value!)
@@ -261,8 +153,6 @@ struct CalculatorBrain{
                 
             case .variable(let variable):
                 sum = (variables?[variable] ?? 0, variable)
-//                sum.value = variables?[variable] ?? 0.0
-//                sum.description = variable
                 
             case .operand(let operand):
                 let isInteger = operand.truncatingRemainder(dividingBy: 1) == 0
@@ -284,13 +174,6 @@ struct CalculatorBrain{
                         
                     case .binaryOperation(let function, let descriptionFunction):
                         
-                        //if isLegalToMakeBinaryOperation{
-                            
-                            // if there is aa pendingBinaryOperation - perform it - else - ignore
-                            //performPendingBinaryOperation()
-                            
-                        
-                            
                             // create new pendingBinaryOperation
                             pendingBinaryOperation = PendingBinaryOperation(firstOperand: sum.value!,
                                                                             binaryFunction: function,
@@ -298,61 +181,23 @@ struct CalculatorBrain{
                                                                             descriptionFunction: descriptionFunction)
                         
                         resultIsPending = true
-                            /*
-                            pendingBinaryOperation = PendingBinaryOperation(firstOperand: sum.value!,
-                                                                            binaryFunction: function,
-                                                                            descriptionOperand: sum.description,
-                                                                            descriptionFunction: descriptionFunction)
-                        */
-                            //sum = (0, " ")
-                        //sum.value = 0
-                            
-                            
-                        //}
-                    
-                        
+
                     case .equals:
                         performPendingBinaryOperation()
                         resultIsPending = false
-                      /*
-                    case .clear:
-                        clear()
-                    */
                         
                     }
- 
-                    
                 }
             }
-            
         }
         
         return (sum.value, resultIsPending, getDescription )
-        
-
-        
-        
     }
  
-    /*
- 
-    // TODO: TASK 2
-    
-     func updateUI(){
-     
-     }
- 
-    
      func undo(){
-     
+        // limit numbers after point
+        // generate random num
      }
-     
-     // limit numbers after point
-     
-     // generate random num
-     
-     */
-
     
     /********************** internal structs **********************/
     
@@ -362,7 +207,6 @@ struct CalculatorBrain{
         case unaryOperation((Double) -> Double, (String) -> String)
         case binaryOperation((Double,Double) -> Double, (String,String) -> String)
         case equals
-        //case clear
     
     }
     
@@ -381,13 +225,10 @@ struct CalculatorBrain{
         var descriptionOperand: String
         var descriptionFunction: (String, String) -> String
         
-        
         func perform(with secondOperand: Double) -> Double{
             return binaryFunction(firstOperand,secondOperand)
         }
         
     }
-    
-
     
 }
