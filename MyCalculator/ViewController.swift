@@ -29,10 +29,10 @@ class ViewController: UIViewController {
             if displayValueToUpdate.description != " " {
                 
                 // if we want to display without ... and = ,so use this line
-                // displayDescription.text = displayValueToUpdate.description
+                 displayDescription.text = displayValueToUpdate.description
                 
                 // to display ... and = , use this line
-                displayDescription.text = displayValueToUpdate.description + ( displayValueToUpdate.isPending ? " ... " : " = ")
+                //displayDescription.text = displayValueToUpdate.description + ( displayValueToUpdate.isPending ? " ... " : " = ")
 
             }else{
                 displayDescription.text = " "
@@ -99,7 +99,7 @@ class ViewController: UIViewController {
         userIsInMiddleOfTyping = false
         displayValue = 0
         displayDescription.text = " "
-        variablesDictionary = ["M": 0]
+        variablesDictionary = nil
         displayM.text = " M = 0 "
     }
     
@@ -130,6 +130,16 @@ class ViewController: UIViewController {
     }
     
     @IBAction func undo(_ sender: UIButton) {
+        
+        if userIsInMiddleOfTyping {
+            var currentNumber = display.text!
+            display.text = String(currentNumber.characters.dropLast())
+            
+        }else{
+            brain.undo()
+            displayValueToUpdate = brain.evaluate(using: variablesDictionary)
+        }
+        
     }
     
     

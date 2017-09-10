@@ -194,9 +194,10 @@ struct CalculatorBrain{
         return (sum.value, resultIsPending, getDescription )
     }
  
-     func undo(){
-        // limit numbers after point
-        // generate random num
+     mutating func undo(){
+        if !arrayOfLastElements.isEmpty{
+            arrayOfLastElements.removeLast()
+        }
      }
     
     /********************** internal structs **********************/
