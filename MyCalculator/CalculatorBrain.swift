@@ -22,25 +22,22 @@ struct CalculatorBrain{
     // this stack will represent the history
     private var arrayOfLastElements = [ArrayStackMember]()
     
-    var M: Double?
-    
     // to store the first operand with the function
     var pendingBinaryOperation: PendingBinaryOperation?
     
     // to know if binary operation is pending
-    private var resultIsPending: Bool {
+    private var resultIsPending: Bool {  /********** depricated **********/
         get{
             return evaluate(using: nil).isPending
         }
     }
-    /********** depricated **********/
+    
     
     var isLegalToMakeBinaryOperation: Bool = false
     
     // we use computed propery and not a method - because we wanted to get read only result
     var result: Double? {                   /********** depricated **********/
         get{
-            //return accumulatorValue
             return evaluate(using: nil).result
         }
         
@@ -65,7 +62,7 @@ struct CalculatorBrain{
     
     private var operations: Dictionary<String,Operation> =
         [
-            "𝝅" : Operation.constant(Double.pi),
+            "pi" : Operation.constant(Double.pi),
             "e" : Operation.constant(M_E),
             "√" : Operation.unaryOperation(sqrt, { "√(\($0))"}),
             "cos" : Operation.unaryOperation(cos, { "cos(\($0))"}),
@@ -174,8 +171,8 @@ struct CalculatorBrain{
                         
                     case .binaryOperation(let function, let descriptionFunction):
                         
-                            // create new pendingBinaryOperation
-                            pendingBinaryOperation = PendingBinaryOperation(firstOperand: sum.value!,
+                        // create new pendingBinaryOperation
+                        pendingBinaryOperation = PendingBinaryOperation(firstOperand: sum.value!,
                                                                             binaryFunction: function,
                                                                             descriptionOperand: sum.description,
                                                                             descriptionFunction: descriptionFunction)
