@@ -169,6 +169,11 @@ class ViewController: UIViewController {
         if userIsInMiddleOfTyping {
             if var currentNumber = display.text{
                 display.text = String(currentNumber.characters.dropLast())
+                if ( (currentNumber == " ") || (currentNumber == "") ){
+                    userIsInMiddleOfTyping = false
+                    brain.undo()
+                    displayValueToUpdate = brain.evaluate(using: variablesDictionary)
+                }
             }
             
 //            var currentNumber = display.text!
