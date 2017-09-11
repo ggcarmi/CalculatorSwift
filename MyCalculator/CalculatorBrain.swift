@@ -23,7 +23,7 @@ struct CalculatorBrain{
     private var arrayOfLastElements = [ArrayStackMember]()
     
     // to store the first operand with the function
-    var pendingBinaryOperation: PendingBinaryOperation?
+    private var pendingBinaryOperation: PendingBinaryOperation?
     
     // to know if binary operation is pending
     private var resultIsPending: Bool {  /********** depricated **********/
@@ -115,29 +115,37 @@ struct CalculatorBrain{
         
         var description: String? {
             get{
-                 if !resultIsPending{
+                if let pbo = pendingBinaryOperation {
+                    return pbo.descriptionFunction(pbo.descriptionOperand, pbo.descriptionOperand != sum.description ? sum.description : " ")
+                }else{
                     return sum.description
-                 }else{
-                    return pendingBinaryOperation!.descriptionFunction(pendingBinaryOperation!.descriptionOperand,
-                           pendingBinaryOperation!.descriptionOperand != sum.description ? sum.description : " ")
-                 }
+                }
+//                 if !resultIsPending{
+//                    return sum.description
+//                 }else{
+//                    return pendingBinaryOperation!.descriptionFunction(pendingBinaryOperation!.descriptionOperand,
+//                           pendingBinaryOperation!.descriptionOperand != sum.description ? sum.description : " ")
+//                 }
             }
         }
         
         var getDescription: String{
             
-                 if(description != " "){
-                    return description!
+                 if(description != " " && description != nil){
+                    return description ?? " "
                  }else{
                     return " "
                  }
         }
         
         func performPendingBinaryOperation() {
-            
-            if sum.value != nil && pendingBinaryOperation != nil {
-                sum.description = pendingBinaryOperation!.descriptionFunction(pendingBinaryOperation!.descriptionOperand,sum.description)
-                sum.value = pendingBinaryOperation!.binaryFunction(pendingBinaryOperation!.firstOperand, sum.value!)
+            if let sumValue = sum.value , let pbo = pendingBinaryOperation {
+            //if sum.value != nil && pendingBinaryOperation != nil {
+//                sum.description = pendingBinaryOperation!.descriptionFunction(pendingBinaryOperation!.descriptionOperand,sum.description)
+//                sum.value = pendingBinaryOperation!.binaryFunction(pendingBinaryOperation!.firstOperand, sum.value ?? 0)
+//                pendingBinaryOperation = nil
+                sum.description = pbo.descriptionFunction(pbo.descriptionOperand,sum.description)
+                sum.value = pbo.binaryFunction(pbo.firstOperand, sumValue)
                 pendingBinaryOperation = nil
             }
         }
@@ -166,13 +174,13 @@ struct CalculatorBrain{
                         
                     case .unaryOperation(let function, let descriptionFunction):
                         if sum.value != nil {
-                            sum = (function(sum.value!), descriptionFunction(sum.description))
+                            sum = (function(sum.value ?? 0), descriptionFunction(sum.description))
                         }
                         
                     case .binaryOperation(let function, let descriptionFunction):
                         
                         // create new pendingBinaryOperation
-                        pendingBinaryOperation = PendingBinaryOperation(firstOperand: sum.value!,
+                        pendingBinaryOperation = PendingBinaryOperation(firstOperand: sum.value ?? 0,
                                                                             binaryFunction: function,
                                                                             descriptionOperand: sum.description,
                                                                             descriptionFunction: descriptionFunction)

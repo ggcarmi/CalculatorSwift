@@ -44,7 +44,14 @@ class ViewController: UIViewController {
     
     var displayValue: Double {
         get{
-            return Double(display.text!)!
+            if let text = display.text{
+                if let result = Double(text){
+                    return result
+                }
+            }
+            return 0
+            //return Double(display.text!)!
+            
         }set{
             let isInteger = newValue.truncatingRemainder(dividingBy: 1) == 0
             display.text = isInteger ? String(format: "%.0f", newValue) : String(newValue)
@@ -57,12 +64,21 @@ class ViewController: UIViewController {
     // listener to the buttons
     @IBAction func touchDigit(_ sender: UIButton) {
         
+        guard let digit = sender.currentTitle else {
+            print(" error - input invalid")
+            return
+        }
+        //let digit = sender.currentTitle!
         
-        let digit = sender.currentTitle!
         brain.isLegalToMakeBinaryOperation = true
         
         if userIsInMiddleOfTyping {
-            let currentText = display.text!
+            guard let currentText = display.text else {
+                print(" error - display.text is not set")
+                return
+            }
+            //let currentText = display.text!
+            
             if(digit != "." || currentText.range(of: ".") == nil ){
                 display.text = currentText + digit
             }
@@ -77,21 +93,38 @@ class ViewController: UIViewController {
     
     @IBAction func performOperation(_ sender: UIButton) {
         
-        let testValid: Double? = Double(display.text!)
-        if testValid != nil{
-            if userIsInMiddleOfTyping{
-                brain.setOperand(displayValue)
-                userIsInMiddleOfTyping = false
-            }
-            
-            if let mathmaticalSymbol = sender.currentTitle {
-                brain.performOperations(mathmaticalSymbol)
-            }
-            
-            if brain.result != nil{
-                displayValueToUpdate = brain.evaluate(using: variablesDictionary)
+        if let displayText = display.text{
+            if Double(displayText) != nil{
+                if userIsInMiddleOfTyping{
+                    brain.setOperand(displayValue)
+                    userIsInMiddleOfTyping = false
+                }
+                
+                if let mathmaticalSymbol = sender.currentTitle {
+                    brain.performOperations(mathmaticalSymbol)
+                }
+                
+                if brain.result != nil{
+                    displayValueToUpdate = brain.evaluate(using: variablesDictionary)
+                }
             }
         }
+        
+//        let testValid: Double? = Double(display.text!)
+//        if testValid != nil{
+//            if userIsInMiddleOfTyping{
+//                brain.setOperand(displayValue)
+//                userIsInMiddleOfTyping = false
+//            }
+//            
+//            if let mathmaticalSymbol = sender.currentTitle {
+//                brain.performOperations(mathmaticalSymbol)
+//            }
+//            
+//            if brain.result != nil{
+//                displayValueToUpdate = brain.evaluate(using: variablesDictionary)
+//            }
+//        }
     }
     
     @IBAction func clear(_ sender: UIButton) {
@@ -99,7 +132,7 @@ class ViewController: UIViewController {
         userIsInMiddleOfTyping = false
         displayValue = 0
         displayDescription.text = " "
-        variablesDictionary = nil
+        variablesDictionary = Dictionary<String, Double>()
         displayM.text = " M = 0 "
     }
     
@@ -112,9 +145,9 @@ class ViewController: UIViewController {
     
     @IBAction func getM(_ sender: UIButton) {
         // M: current value of the display
-        variablesDictionary = ["M": displayValue]
+        variablesDictionary?["M"] = displayValue
         
-        if let res = variablesDictionary!["M"] {
+        if let res = variablesDictionary?["M"] {
             let isInteger = res.truncatingRemainder(dividingBy: 1) == 0
             displayM.text = " M = " + (isInteger ? String(format: "%.0f", res) : String(res))
         }
@@ -125,15 +158,21 @@ class ViewController: UIViewController {
     
     // M
     @IBAction func setM(_ sender: UIButton) {
-        brain.setOperand(variable: sender.currentTitle!)
-        displayValueToUpdate = brain.evaluate(using: variablesDictionary)
+        if let senderTitle = sender.currentTitle {
+            brain.setOperand(variable: senderTitle)
+            displayValueToUpdate = brain.evaluate(using: variablesDictionary)
+        }
     }
     
     @IBAction func undo(_ sender: UIButton) {
         
         if userIsInMiddleOfTyping {
-            var currentNumber = display.text!
-            display.text = String(currentNumber.characters.dropLast())
+            if var currentNumber = display.text{
+                display.text = String(currentNumber.characters.dropLast())
+            }
+            
+//            var currentNumber = display.text!
+//            display.text = String(currentNumber.characters.dropLast())
             
         }else{
             brain.undo()
