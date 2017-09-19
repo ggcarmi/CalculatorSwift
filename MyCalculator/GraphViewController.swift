@@ -14,6 +14,9 @@ class GraphViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        graphView.yFunction = cos
+//        graphView.yFunction = tan
+        graphView.yFunction = sin
 
         // Do any additional setup after loading the view.
     }
