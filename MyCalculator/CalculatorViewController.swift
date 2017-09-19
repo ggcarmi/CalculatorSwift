@@ -15,6 +15,8 @@ class CalculatorViewController: UIViewController {
     @IBOutlet weak var displayDescription: UILabel!
     @IBOutlet weak var displayM: UILabel!
     
+    let segueGraphIdentifier = "segueShowDetailGraph"
+    
     var userIsInMiddleOfTyping:Bool = false
 
     var displayValueToUpdate:(result: Double?, isPending: Bool, description: String) = (nil, false, " "){
@@ -194,7 +196,7 @@ class CalculatorViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "segueShowDetailGraph"{
+        if segue.identifier == segueGraphIdentifier {
             if let targetNavigationController = segue.destination as? UINavigationController{
                 
                 if let targetGraphController = targetNavigationController.topViewController as? GraphViewController{
@@ -217,6 +219,17 @@ class CalculatorViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        
+        if identifier == segueGraphIdentifier{
+            if brain.evaluate().isPending == false{
+                return true
+            }
+            return false
+        }
+        return false
     }
     
 
