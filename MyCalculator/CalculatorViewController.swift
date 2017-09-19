@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CalculatorViewController: UIViewController {
     
     // outlet is a property and not an action
     @IBOutlet weak var display: UILabel!
