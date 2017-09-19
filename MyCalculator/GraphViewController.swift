@@ -12,12 +12,15 @@ class GraphViewController: UIViewController {
 
     @IBOutlet weak var graphView: GraphView!
     
+    var yFunction: ((Double) -> Double?)? {
+        didSet{
+            _ = self.view // nice trick to force the view populate his hirarchy
+            graphView?.yFunction = yFunction
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        graphView.yFunction = cos
-//        graphView.yFunction = tan
-        graphView.yFunction = sin
-
         // Do any additional setup after loading the view.
     }
 

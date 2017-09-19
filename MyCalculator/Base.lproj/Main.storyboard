@@ -43,10 +43,10 @@
             </objects>
             <point key="canvasLocation" x="262.5" y="96.126760563380287"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Calculator-->
         <scene sceneID="afQ-8P-for">
             <objects>
-                <navigationController id="uh8-VF-5dT" sceneMemberID="viewController">
+                <navigationController title="Calculator" id="uh8-VF-5dT" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="P2N-jN-LVX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -455,8 +455,7 @@
                                                             <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="performOperation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="REE-m6-3qU"/>
-                                                            <segue destination="wEK-Vo-Cs7" kind="showDetail" id="Sqv-CQ-lib"/>
+                                                            <segue destination="36C-T5-Q0x" kind="showDetail" identifier="segueShowDetailGraph" id="AHl-2r-S05"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SRe-lD-c7l">
@@ -496,10 +495,10 @@
             </objects>
             <point key="canvasLocation" x="266" y="-689"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Graph-->
         <scene sceneID="jX8-C7-4Rv">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="36C-T5-Q0x" sceneMemberID="viewController">
+                <navigationController title="Graph" automaticallyAdjustsScrollViewInsets="NO" id="36C-T5-Q0x" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Xog-6P-049">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -516,6 +515,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Sqv-CQ-lib"/>
+        <segue reference="AHl-2r-S05"/>
     </inferredMetricsTieBreakers>
 </document>

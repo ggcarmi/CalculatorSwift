@@ -191,7 +191,35 @@ class CalculatorViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "segueShowDetailGraph"{
+            if let targetNavigationController = segue.destination as? UINavigationController{
+                
+                if let targetGraphController = targetNavigationController.topViewController as? GraphViewController{
 
+                    // set the title
+                    targetGraphController.navigationItem.title = brain.evaluate(using: variablesDictionary).description
+                    
+                    // return clusure that represent the function we want to present
+//                    targetGraphController.yFunction = { x in
+//                        self.variablesDictionary?["M"] = x
+//                        return self.brain.evaluate(using: self.variablesDictionary).result
+//                    }
+                    targetGraphController.yFunction = { [weak weakSelf = self] x in
+                        weakSelf?.variablesDictionary?["M"] = x
+                        return weakSelf?.brain.evaluate(using: weakSelf?.variablesDictionary).result
+                    }
 
+                    
+
+                }
+            }
+        }
+    }
+    
+
+    
 }
 
