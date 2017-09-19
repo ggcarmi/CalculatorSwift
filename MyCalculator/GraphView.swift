@@ -8,13 +8,14 @@
 
 import UIKit
 
+@IBDesignable
 class GraphView: UIView {
     
-    var axesColor: UIColor = UIColor.black { didSet { setNeedsDisplay() } }
-    var lineWidth: CGFloat = 1.0 { didSet { setNeedsDisplay() } }
-    var scale: CGFloat = 50.0 { didSet { setNeedsDisplay() } }
-    var origin: CGPoint! { didSet { setNeedsDisplay() } }
-    var lineColor: UIColor = UIColor.red { didSet { setNeedsDisplay() }}
+    @IBInspectable var axesColor: UIColor = UIColor.black { didSet { setNeedsDisplay() } }
+    @IBInspectable var lineWidth: CGFloat = 1.0 { didSet { setNeedsDisplay() } }
+    @IBInspectable var scale: CGFloat = 50.0 { didSet { setNeedsDisplay() } }
+    @IBInspectable var origin: CGPoint! { didSet { setNeedsDisplay() } }
+    @IBInspectable var lineColor: UIColor = UIColor.red { didSet { setNeedsDisplay() }}
 
 
     private var axesDrawer = AxesDrawer()

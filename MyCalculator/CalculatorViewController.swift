@@ -16,6 +16,7 @@ class CalculatorViewController: UIViewController {
     @IBOutlet weak var displayM: UILabel!
     
     let segueGraphIdentifier = "segueShowDetailGraph"
+    let calculatorTile = "Calculator"
     
     var userIsInMiddleOfTyping:Bool = false
 
@@ -140,6 +141,7 @@ class CalculatorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = calculatorTile
         // Do any additional setup after loading the view, typically from a nib.
     }
 
