@@ -10,7 +10,17 @@ import UIKit
 
 class GraphViewController: UIViewController {
 
-    @IBOutlet weak var graphView: GraphView!
+    var graphTitle: String?{
+        didSet{
+            self.navigationItem.title = graphTitle ?? "Graph"
+        }
+    }
+    
+    @IBOutlet weak var graphView: GraphView! {
+        didSet{
+            addGestures()
+        }
+    }
     
     var yFunction: ((Double) -> Double?)? {
         didSet{
@@ -21,6 +31,7 @@ class GraphViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = graphTitle ?? "Graph"
         // Do any additional setup after loading the view.
     }
 
@@ -29,6 +40,17 @@ class GraphViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    private func addGestures(){
+        
+        graphView.addGestureRecognizer(UIPinchGestureRecognizer( target: graphView, action: #selector(graphView.scale(recognizer:)) ))
+        
+        graphView.addGestureRecognizer(UIPanGestureRecognizer( target: graphView, action: #selector(graphView.moveOrigin(recognizer:)) ))
+        
+        let tapRecognizer = UITapGestureRecognizer( target: graphView, action: #selector(graphView.setOriginWithTap(recognizer:)) )
+        tapRecognizer.numberOfTapsRequired = 2
+        graphView.addGestureRecognizer(tapRecognizer)
+        
+    }
 
     /*
     // MARK: - Navigation

@@ -26,7 +26,7 @@ struct CalculatorBrain{
     private var pendingBinaryOperation: PendingBinaryOperation?
     
     // to know if binary operation is pending
-    var resultIsPending: Bool {  /********** depricated **********/
+    private var resultIsPending: Bool {  /********** depricated **********/
         get{
             return evaluate(using: nil).isPending
         }

@@ -67,8 +67,42 @@ class GraphView: UIView {
         path.stroke()
     }
     
+    
+    
+    
+    
+    
+    // gestures - 3 types - for set the origin by tap, drag the origin and zoom with pinch
+    
+    func setOriginWithTap(recognizer: UITapGestureRecognizer){
+        origin = recognizer.location(in: self)
+    }
+    
+    func moveOrigin(recognizer: UIPanGestureRecognizer){
+        
+        switch recognizer.state {
+            
+        case .changed, .ended:
+            let translation = recognizer.translation(in: self)
+            origin.x += translation.x
+            origin.y += translation.y
+            recognizer.setTranslation(CGPoint.zero, in: self)
+            
+        default: break
+        }
+    }
+    
+    func scale(recognizer: UIPinchGestureRecognizer){
+        
+        switch recognizer.state {
 
-    
-    
+        case .changed, .ended:
+            scale *= recognizer.scale
+            recognizer.scale = 1
+            
+        default: break
+            
+        }
+    }
     
 }

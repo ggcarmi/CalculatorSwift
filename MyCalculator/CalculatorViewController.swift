@@ -204,7 +204,7 @@ class CalculatorViewController: UIViewController {
                 if let targetGraphController = targetNavigationController.topViewController as? GraphViewController{
 
                     // set the title
-                    targetGraphController.navigationItem.title = brain.evaluate(using: variablesDictionary).description
+                    targetGraphController.graphTitle = brain.evaluate(using: variablesDictionary).description
                     
                     // return clusure that represent the function we want to present
 //                    targetGraphController.yFunction = { x in
