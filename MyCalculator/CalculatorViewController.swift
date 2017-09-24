@@ -198,10 +198,11 @@ class CalculatorViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == segueGraphIdentifier {
-            if let targetNavigationController = segue.destination as? UINavigationController{
-                
-                if let targetGraphController = targetNavigationController.topViewController as? GraphViewController{
+//        if segue.identifier == segueGraphIdentifier {
+//            if let targetNavigationController = segue.destination as? UINavigationController{
+//                
+//                if let targetGraphController = targetNavigationController.topViewController as? GraphViewController{
+        if let targetGraphController = segue.destination.contentViewController as? GraphViewController{
 
                     // set the title
                     targetGraphController.graphTitle = brain.evaluate(using: variablesDictionary).description
@@ -216,11 +217,11 @@ class CalculatorViewController: UIViewController {
                         return weakSelf?.brain.evaluate(using: weakSelf?.variablesDictionary).result
                     }
 
-                    
-
-                }
-            }
         }
+
+//                }
+//            }
+//        }
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -238,3 +239,12 @@ class CalculatorViewController: UIViewController {
     
 }
 
+extension UIViewController {
+    var contentViewController: UIViewController {
+        if let navcon = self as? UINavigationController {
+            return navcon.visibleViewController ?? self
+        } else {
+            return self
+        }
+    }
+}
