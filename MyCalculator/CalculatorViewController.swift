@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CalculatorViewController: UIViewController {
+class CalculatorViewController: UIViewController, UISplitViewControllerDelegate {
     
     // outlet is a property and not an action
     @IBOutlet weak var display: UILabel!
@@ -144,9 +144,27 @@ class CalculatorViewController: UIViewController {
         self.navigationItem.title = calculatorTile
         // Do any additional setup after loading the view, typically from a nib.
     }
-
-    // →M
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.splitViewController?.delegate = self
+    }
+    
+    // bug fix - when first lunch on iphone - show Calclulator instead of empty Graph
+    func splitViewController(_ splitViewController: UISplitViewController,
+                             collapseSecondary secondaryViewController: UIViewController,  // the detail VC
+                             onto primaryViewController: UIViewController)                 // the master VC
+        -> Bool {
+
+            if primaryViewController.contents == self { // we use contents, because it might be a navigtionController
+                if let ivc = secondaryViewController.contents as? GraphViewController, ivc.yFunction == nil {
+                    return true
+                }
+            }
+            return false
+    }
+    
+    // →M
     @IBAction func getM(_ sender: UIButton) {
         // M: current value of the display
         variablesDictionary?["M"] = displayValue
@@ -202,7 +220,7 @@ class CalculatorViewController: UIViewController {
 //            if let targetNavigationController = segue.destination as? UINavigationController{
 //                
 //                if let targetGraphController = targetNavigationController.topViewController as? GraphViewController{
-        if let targetGraphController = segue.destination.contentViewController as? GraphViewController{
+        if let targetGraphController = segue.destination.contents as? GraphViewController{
 
                     // set the title
                     targetGraphController.graphTitle = brain.evaluate(using: variablesDictionary).description
@@ -212,6 +230,8 @@ class CalculatorViewController: UIViewController {
 //                        self.variablesDictionary?["M"] = x
 //                        return self.brain.evaluate(using: self.variablesDictionary).result
 //                    }
+            
+                    //to avoid memory cycle - use that version
                     targetGraphController.yFunction = { [weak weakSelf = self] x in
                         weakSelf?.variablesDictionary?["M"] = x
                         return weakSelf?.brain.evaluate(using: weakSelf?.variablesDictionary).result
@@ -239,8 +259,10 @@ class CalculatorViewController: UIViewController {
     
 }
 
+// we do this to handle the case we get navigation controller
+// extension cant have storage  - they can have only computed vars
 extension UIViewController {
-    var contentViewController: UIViewController {
+    var contents: UIViewController {
         if let navcon = self as? UINavigationController {
             return navcon.visibleViewController ?? self
         } else {
