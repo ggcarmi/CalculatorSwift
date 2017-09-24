@@ -449,7 +449,7 @@
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rDj-Gt-z75">
                                                         <rect key="frame" x="214" y="0.0" width="52.5" height="70"/>
-                                                        <color key="backgroundColor" red="0.83912390469999998" green="0.83926850559999999" blue="0.83911478520000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="backgroundColor" red="1" green="0.57457399368286133" blue="0.0019781978335231543" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <state key="normal" title="graph">
                                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

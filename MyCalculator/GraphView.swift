@@ -16,9 +16,12 @@ class GraphView: UIView {
     @IBInspectable var scale: CGFloat = 50.0 { didSet { setNeedsDisplay() } }
     @IBInspectable var origin: CGPoint! { didSet { setNeedsDisplay() } }
     @IBInspectable var lineColor: UIColor = UIColor.red { didSet { setNeedsDisplay() }}
-
+    
+    var yFunction: ((Double) -> Double?)? { didSet { setNeedsDisplay() } }
 
     private var axesDrawer = AxesDrawer()
+    
+    
     
     override func draw(_ rect: CGRect) {
         origin = origin ?? CGPoint(x: bounds.midX, y: bounds.midY)
@@ -29,11 +32,7 @@ class GraphView: UIView {
         
     }
     
-    var yFunction: ((Double) -> Double?)? { didSet { setNeedsDisplay() } }
-
     func drawGraphForGivenFunction() {
-        
-        // add protection fot infinity,zero,discontionue
         
         let path = UIBezierPath()
         var isEmptyLine = true
@@ -48,7 +47,6 @@ class GraphView: UIView {
             graphPoint.x = CGFloat(pixel) / contentScaleFactor
             x = (Double((graphPoint.x - origin.x) / scale))
             
-            
             if let y = yFunction?(x){
                 graphPoint.y = origin.y - CGFloat(y) * scale
                 
@@ -60,15 +58,11 @@ class GraphView: UIView {
                 }
             }
 
-            
         }
         
         path.lineWidth = lineWidth
         path.stroke()
     }
-    
-    
-    
     
     
     

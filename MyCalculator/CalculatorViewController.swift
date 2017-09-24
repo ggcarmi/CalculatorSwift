@@ -10,15 +10,22 @@ import UIKit
 
 class CalculatorViewController: UIViewController, UISplitViewControllerDelegate {
     
+    // outlets
+    
     // outlet is a property and not an action
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var displayDescription: UILabel!
     @IBOutlet weak var displayM: UILabel!
     
+    // vars
     let segueGraphIdentifier = "segueShowDetailGraph"
-    let calculatorTile = "Calculator"
+    let calculatorTitle = "Calculator"
     
     var userIsInMiddleOfTyping:Bool = false
+
+    var variablesDictionary: Dictionary<String, Double>? = ["M":0]
+    
+    private var brain = CalculatorBrain()
 
     var displayValueToUpdate:(result: Double?, isPending: Bool, description: String) = (nil, false, " "){
 
@@ -62,7 +69,8 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
     }
     
     
-    var variablesDictionary: Dictionary<String, Double>? = ["M":0]
+    
+    // actions
     
     // listener to the buttons
     @IBAction func touchDigit(_ sender: UIButton) {
@@ -91,8 +99,6 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
         }
         
     }
-    
-    private var brain = CalculatorBrain()
     
     @IBAction func performOperation(_ sender: UIButton) {
         
@@ -137,31 +143,6 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
         displayDescription.text = " "
         variablesDictionary = Dictionary<String, Double>()
         displayM.text = " M = 0 "
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.navigationItem.title = calculatorTile
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.splitViewController?.delegate = self
-    }
-    
-    // bug fix - when first lunch on iphone - show Calclulator instead of empty Graph
-    func splitViewController(_ splitViewController: UISplitViewController,
-                             collapseSecondary secondaryViewController: UIViewController,  // the detail VC
-                             onto primaryViewController: UIViewController)                 // the master VC
-        -> Bool {
-
-            if primaryViewController.contents == self { // we use contents, because it might be a navigtionController
-                if let ivc = secondaryViewController.contents as? GraphViewController, ivc.yFunction == nil {
-                    return true
-                }
-            }
-            return false
     }
     
     // →M
@@ -209,6 +190,33 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
     }
     
     
+    
+    // funcs
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationItem.title = calculatorTitle
+        // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.splitViewController?.delegate = self
+    }
+    
+    // bug fix - when first lunch on iphone - show Calclulator instead of empty Graph
+    func splitViewController(_ splitViewController: UISplitViewController,
+                             collapseSecondary secondaryViewController: UIViewController,  // the detail VC
+        onto primaryViewController: UIViewController)                 // the master VC
+        -> Bool {
+            
+            if primaryViewController.contents == self { // we use contents, because it might be a navigtionController
+                if let ivc = secondaryViewController.contents as? GraphViewController, ivc.yFunction == nil {
+                    return true
+                }
+            }
+            return false
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -216,10 +224,6 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-//        if segue.identifier == segueGraphIdentifier {
-//            if let targetNavigationController = segue.destination as? UINavigationController{
-//                
-//                if let targetGraphController = targetNavigationController.topViewController as? GraphViewController{
         if let targetGraphController = segue.destination.contents as? GraphViewController{
 
                     // set the title
@@ -236,12 +240,7 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
                         weakSelf?.variablesDictionary?["M"] = x
                         return weakSelf?.brain.evaluate(using: weakSelf?.variablesDictionary).result
                     }
-
         }
-
-//                }
-//            }
-//        }
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -254,8 +253,6 @@ class CalculatorViewController: UIViewController, UISplitViewControllerDelegate 
         }
         return false
     }
-    
-
     
 }
 
