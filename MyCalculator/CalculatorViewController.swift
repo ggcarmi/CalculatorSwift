@@ -8,14 +8,24 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CalculatorViewController: UIViewController, UISplitViewControllerDelegate {
+    
+    // outlets
     
     // outlet is a property and not an action
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var displayDescription: UILabel!
     @IBOutlet weak var displayM: UILabel!
     
+    // vars
+    let segueGraphIdentifier = "segueShowDetailGraph"
+    let calculatorTitle = "Calculator"
+    
     var userIsInMiddleOfTyping:Bool = false
+
+    var variablesDictionary: Dictionary<String, Double>? = ["M":0]
+    
+    private var brain = CalculatorBrain()
 
     var displayValueToUpdate:(result: Double?, isPending: Bool, description: String) = (nil, false, " "){
 
@@ -59,7 +69,8 @@ class ViewController: UIViewController {
     }
     
     
-    var variablesDictionary: Dictionary<String, Double>? = ["M":0]
+    
+    // actions
     
     // listener to the buttons
     @IBAction func touchDigit(_ sender: UIButton) {
@@ -88,8 +99,6 @@ class ViewController: UIViewController {
         }
         
     }
-    
-    private var brain = CalculatorBrain()
     
     @IBAction func performOperation(_ sender: UIButton) {
         
@@ -136,13 +145,7 @@ class ViewController: UIViewController {
         displayM.text = " M = 0 "
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-
     // →M
-    
     @IBAction func getM(_ sender: UIButton) {
         // M: current value of the display
         variablesDictionary?["M"] = displayValue
@@ -187,11 +190,80 @@ class ViewController: UIViewController {
     }
     
     
+    
+    // funcs
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationItem.title = calculatorTitle
+        // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.splitViewController?.delegate = self
+    }
+    
+    // bug fix - when first lunch on iphone - show Calclulator instead of empty Graph
+    func splitViewController(_ splitViewController: UISplitViewController,
+                             collapseSecondary secondaryViewController: UIViewController,  // the detail VC
+        onto primaryViewController: UIViewController)                 // the master VC
+        -> Bool {
+            
+            if primaryViewController.contents == self { // we use contents, because it might be a navigtionController
+                if let ivc = secondaryViewController.contents as? GraphViewController, ivc.yFunction == nil {
+                    return true
+                }
+            }
+            return false
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if let targetGraphController = segue.destination.contents as? GraphViewController{
 
-
+                    // set the title
+                    targetGraphController.graphTitle = brain.evaluate(using: variablesDictionary).description
+                    
+                    // return clusure that represent the function we want to present
+//                    targetGraphController.yFunction = { x in
+//                        self.variablesDictionary?["M"] = x
+//                        return self.brain.evaluate(using: self.variablesDictionary).result
+//                    }
+            
+                    //to avoid memory cycle - use that version
+                    targetGraphController.yFunction = { [weak weakSelf = self] x in
+                        weakSelf?.variablesDictionary?["M"] = x
+                        return weakSelf?.brain.evaluate(using: weakSelf?.variablesDictionary).result
+                    }
+        }
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        
+        if identifier == segueGraphIdentifier{
+            if brain.evaluate().isPending == false{
+                return true
+            }
+            return false
+        }
+        return false
+    }
+    
 }
 
+// we do this to handle the case we get navigation controller
+// extension cant have storage  - they can have only computed vars
+extension UIViewController {
+    var contents: UIViewController {
+        if let navcon = self as? UINavigationController {
+            return navcon.visibleViewController ?? self
+        } else {
+            return self
+        }
+    }
+}
